@@ -3,9 +3,9 @@ module "self_managed_node_group" {
   source = "terraform-aws-modules/eks/aws//modules/self-managed-node-group"
 
   name                = "fast-campus-self-managed"
-  cluster_name        = "fast-campus-cluster"
+  cluster_name        = "fast-campus-cluster-z"
   cluster_version     = "1.29"
-  subnet_ids = ["subnet-0bb70691292e64ea7", "subnet-0ea42188dd8e1483e", "subnet-07ce57e703be85c3b"]
+  subnet_ids = ["subnet-0b1e99ef139f6ce5c", "subnet-01230307ad1145140", "subnet-0eb072d20a5aeb00b"]
 
   // The following variables are necessary if you decide to use the module outside of the parent EKS module context.
   // Without it, the security groups of the nodes are empty and thus won't join the cluster.
