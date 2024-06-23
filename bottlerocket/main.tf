@@ -5,6 +5,8 @@ module "eks_bottlerocket" {
   cluster_name    = "fast-campus-bottlerocket"
   cluster_version = "1.29"
 
+  cluster_endpoint_public_access  = true
+
  cluster_addons = {
     coredns = {
       most_recent = true
@@ -21,35 +23,19 @@ module "eks_bottlerocket" {
   subnet_ids               = ["subnet-0b1e99ef139f6ce5c", "subnet-01230307ad1145140", "subnet-0eb072d20a5aeb00b"]
   control_plane_subnet_ids = ["subnet-0b1e99ef139f6ce5c", "subnet-01230307ad1145140", "subnet-0eb072d20a5aeb00b"]
 
-  self_managed_node_groups = {
-    example = {
-      ami_type      = "BOTTLEROCKET_x86_64"
-      instance_type = "t3.small"
+  # EKS Managed Node Group(s)
+  eks_managed_node_group_defaults = {
+    instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
+  }
 
-      min_size = 1
-      max_size = 5
-      # This value is ignored after the initial creation
-      # https://github.com/bryantbiggs/eks-desired-size-hack
+  eks_managed_node_groups = {
+    fast-campus = {
+      min_size     = 1
+      max_size     = 10
       desired_size = 1
-
-      # This is not required - demonstrates how to pass additional configuration
-      # Ref https://bottlerocket.dev/en/os/1.19.x/api/settings/
-      bootstrap_extra_args = <<-EOT
-        # The admin host container provides SSH access and runs with "superpowers".
-        # It is disabled by default, but can be disabled explicitly.
-        [settings.host-containers.admin]
-        enabled = false
-
-        # The control host container provides out-of-band access via SSM.
-        # It is enabled by default, and can be disabled if you do not expect to use SSM.
-        # This could leave you with no way to access the API and change settings on an existing node!
-        [settings.host-containers.control]
-        enabled = true
-
-        # extra args added
-        [settings.kernel]
-        lockdown = "integrity"
-      EOT
+      ami_type      = "BOTTLEROCKET_x86_64"
+      instance_types = ["t3.small"]
+      capacity_type  = "ON_DEMAND"
     }
   }
 
