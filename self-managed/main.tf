@@ -23,22 +23,6 @@ module "eks" {
   subnet_ids               = ["subnet-0b1e99ef139f6ce5c", "subnet-01230307ad1145140", "subnet-0eb072d20a5aeb00b"]
   control_plane_subnet_ids = ["subnet-0b1e99ef139f6ce5c", "subnet-01230307ad1145140", "subnet-0eb072d20a5aeb00b"]
 
-#   # EKS Managed Node Group(s)
-#   eks_managed_node_group_defaults = {
-#     instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
-#   }
-
-#   eks_managed_node_groups = {
-#     fast-campus = {
-#       min_size     = 3
-#       max_size     = 10
-#       desired_size = 3
-
-#       instance_types = ["t3.small"]
-#       capacity_type  = "ON_DEMAND"
-#     }
-#   }
-
   # Cluster access entry
   # To add the current caller identity as an administrator
   enable_cluster_creator_admin_permissions = true
