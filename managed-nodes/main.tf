@@ -2,8 +2,8 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
 
-  cluster_name    = "fast-campus-cluster"
-  cluster_version = "1.29"
+  cluster_name    = local.cluster_name
+  cluster_version = local.cluster_version
 
   cluster_endpoint_public_access  = true
 
@@ -19,9 +19,9 @@ module "eks" {
     }
   }
 
-  vpc_id                   = "vpc-00feacb6d220c5212"
-  subnet_ids               = ["subnet-0bb70691292e64ea7", "subnet-0ea42188dd8e1483e", "subnet-07ce57e703be85c3b"]
-  control_plane_subnet_ids = ["subnet-0bb70691292e64ea7", "subnet-0ea42188dd8e1483e", "subnet-07ce57e703be85c3b"]
+  vpc_id                   = local.vpc_id
+  subnet_ids               = local.subnet_ids
+  control_plane_subnet_ids = local.control_plane_subnet_ids
 
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
@@ -30,11 +30,11 @@ module "eks" {
 
   eks_managed_node_groups = {
     fast-campus = {
-      min_size     = 3
+      min_size     = 1
       max_size     = 10
-      desired_size = 3
+      desired_size = 1
 
-      instance_types = ["t3.small"]
+      instance_types = local.instance_types
       capacity_type  = "ON_DEMAND"
     }
   }

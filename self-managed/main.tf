@@ -2,8 +2,8 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
 
-  cluster_name    = "fast-campus-cluster-z"
-  cluster_version = "1.29"
+  cluster_name    = local.cluster_name
+  cluster_version = local.cluster_version
 
   cluster_endpoint_public_access  = true
 
@@ -19,9 +19,9 @@ module "eks" {
     }
   }
 
-  vpc_id                   = "vpc-00feacb6d220c5212"
-  subnet_ids               = ["subnet-0b1e99ef139f6ce5c", "subnet-01230307ad1145140", "subnet-0eb072d20a5aeb00b"]
-  control_plane_subnet_ids = ["subnet-0b1e99ef139f6ce5c", "subnet-01230307ad1145140", "subnet-0eb072d20a5aeb00b"]
+  vpc_id                   = local.vpc_id
+  subnet_ids               = local.subnet_ids
+  control_plane_subnet_ids = local.control_plane_subnet_ids
 
   # Cluster access entry
   # To add the current caller identity as an administrator

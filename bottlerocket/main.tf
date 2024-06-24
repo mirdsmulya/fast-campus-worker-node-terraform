@@ -2,8 +2,8 @@ module "eks_bottlerocket" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
 
-  cluster_name    = "fast-campus-bottlerocket"
-  cluster_version = "1.29"
+  cluster_name    = local.cluster_name
+  cluster_version = local.cluster_version
 
   cluster_endpoint_public_access  = true
 
@@ -20,8 +20,8 @@ module "eks_bottlerocket" {
   }
 
   vpc_id                   = "vpc-00feacb6d220c5212"
-  subnet_ids               = ["subnet-0b1e99ef139f6ce5c", "subnet-01230307ad1145140", "subnet-0eb072d20a5aeb00b"]
-  control_plane_subnet_ids = ["subnet-0b1e99ef139f6ce5c", "subnet-01230307ad1145140", "subnet-0eb072d20a5aeb00b"]
+  subnet_ids               = local.subnet_ids
+  control_plane_subnet_ids = local.control_plane_subnet_ids
 
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
@@ -34,7 +34,7 @@ module "eks_bottlerocket" {
       max_size     = 10
       desired_size = 1
       ami_type      = "BOTTLEROCKET_x86_64"
-      instance_types = ["t3.small"]
+      instance_types = local.instance_types
       capacity_type  = "ON_DEMAND"
     }
   }
