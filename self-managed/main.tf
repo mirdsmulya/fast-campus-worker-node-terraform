@@ -6,19 +6,6 @@ module "eks" {
   cluster_version = local.cluster_version
 
   cluster_endpoint_public_access  = true
-
-  cluster_addons = {
-    coredns = {
-      most_recent = true
-    }
-    kube-proxy = {
-      most_recent = true
-    }
-    vpc-cni = {
-      most_recent = true
-    }
-  }
-
   vpc_id                   = local.vpc_id
   subnet_ids               = local.subnet_ids
   control_plane_subnet_ids = local.control_plane_subnet_ids
