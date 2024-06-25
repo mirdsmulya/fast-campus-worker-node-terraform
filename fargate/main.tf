@@ -1,4 +1,4 @@
-module "eks" {
+module "eks_fargate" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
 
@@ -16,10 +16,10 @@ module "eks" {
     }
   }
 
-  vpc_id                   = "vpc-00feacb6d220c5212"
+  vpc_id                   = local.vpc_id
   # use Private subnets for Fargate
-  subnet_ids               = ["subnet-0dafcf4bc750dc82b", "subnet-02549f63db4c7d756", "subnet-09b1c9f4a6287d443"] 
-  control_plane_subnet_ids = ["subnet-0bb70691292e64ea7", "subnet-0ea42188dd8e1483e", "subnet-07ce57e703be85c3b"]
+  subnet_ids               = local.subnet_ids
+  control_plane_subnet_ids = local.control_plane_subnet_ids
 
   # Fargate profiles use the cluster primary security group so these are not utilized
   create_cluster_security_group = false
@@ -47,7 +47,7 @@ module "eks" {
 
       # Using specific subnets instead of the subnets supplied for the cluster itself
       # use Private subnets for Fargate
-      subnets = ["subnet-0dafcf4bc750dc82b", "subnet-02549f63db4c7d756", "subnet-09b1c9f4a6287d443"]
+      subnets = local.subnet_ids
 
       tags = {
         Owner = "secondary"
