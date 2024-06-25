@@ -2,7 +2,7 @@
 module "self_managed_node_group" {
   source = "terraform-aws-modules/eks/aws//modules/self-managed-node-group"
 
-  name                = "fast-campus-self-managed"
+  name                = "fast-campus-cluster-self"
   cluster_name        = local.cluster_name
   cluster_version     = local.cluster_version
   subnet_ids          = local.subnet_ids
